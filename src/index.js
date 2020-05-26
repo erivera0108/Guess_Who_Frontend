@@ -10,8 +10,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const backButton = document.createElement('button')
   backButton.innerText = "Back"
   
-  newPlayerForm.innerHTML = `<label for="lname">Your name:</label>
-  <input id= "" type="text" id="name" name="name"><br><br>
+  newPlayerForm.innerHTML = `<label for="name">Your name:</label>
+  <input  type="text" id="name" name="name"><br>
   <input id= "submit-button" type="submit" value="Submit"></input>`
   
 
@@ -20,20 +20,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.addEventListener("submit", function(e){
     e.preventDefault()
-
+    console.log(newPlayerForm.name.value)
     fetch("http://localhost:3000/api/v1/players",{
       method: "POST",
-      headers: {
-        "content-type":"application/json",
-        "accept":"application/json"
-      },
+      headers: {"content-type":"application/json",
+    "accept":"application/json"},
       body: JSON.stringify({
-        name:newPlayerForm.value
+        name: newPlayerForm.name.value
       })
     })
     .then(res => res.json())
+
+        .then(data => console.log(data))
+        .then(newPlayerForm.remove)
     // .then(data => createCharacterBoard(data))
-    // newPlayerForm.remove()
+    // .then(newPlayerForm.remove())
+
   })
   
   document.addEventListener('click', e =>{
@@ -45,11 +47,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // The 3 lines below belong within the submit function above
       // here for test purposes 
+
       fetch(peopleURL)
+
       .then(res => res.json())
       .then(data => createCharacterBoard(data))
 
-      newPlayerForm.remove()
+      // newPlayerForm.remove()
       e.target.parentNode.remove()
     } else if(e.target.className === 'flip-btn'){
       const button = e.target
