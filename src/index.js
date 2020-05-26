@@ -4,24 +4,36 @@ document.addEventListener("DOMContentLoaded", () => {
   const body = document.querySelector('body')
   const personDiv = document.querySelector("#game-board")
   const newPlayerForm = document.createElement('form')
+  newPlayerForm.id = "new-player-form"
   const peopleURL = 'http://localhost:3000/api/v1/people'
+  const playerURL = 'http://localhost:3000/api/v1/players'
+  const backButton = document.createElement('button')
+  backButton.innerText = "Back"
   
   newPlayerForm.innerHTML = `<label for="lname">Your name:</label>
   <input id= "" type="text" id="name" name="name"><br><br>
   <input id= "submit-button" type="submit" value="Submit"></input>`
   
-  const backButton = document.createElement('button')
-  backButton.innerText = "Back"
-  newPlayerForm.id = "new-player-form"
+
+
   
 
   document.addEventListener("submit", function(e){
     e.preventDefault()
 
-    // fetch("http://localhost:3000/toys")
-    // .then(res => res.json())
-    // .then(data => createCharacterBoard(data))
-    // newPlayerForm.remove()
+    fetch("http://localhost:3000/api/v1/players",{
+      method: "POST",
+      headers: {
+        "content-type":"application/json",
+        "accept":"application/json"
+      },
+      body: JSON.stringify({
+        name:newPlayerForm.value
+      })
+    })
+    .then(res => res.json())
+    .then(data => createCharacterBoard(data))
+    newPlayerForm.remove()
   })
   
   document.addEventListener('click', e =>{
