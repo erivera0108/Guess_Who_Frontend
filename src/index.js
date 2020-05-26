@@ -6,8 +6,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const newPlayerForm = document.createElement('form')
 
   
-  newPlayerForm.innerHTML = `<label for="lname">Your name:</label>
-  <input id= "" type="text" id="name" name="name"><br><br>
+  newPlayerForm.innerHTML = `<label for="name">Your name:</label>
+  <input  type="text" id="name" name="name"><br>
   <input id= "submit-button" type="submit" value="Submit"></input>`
   
   const backButton = document.createElement('button')
@@ -17,11 +17,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.addEventListener("submit", function(e){
     e.preventDefault()
-
-    // fetch("http://localhost:3000/toys")
-    // .then(res => res.json())
+    console.log(newPlayerForm.name.value)
+    fetch("http://localhost:3000/api/v1/players",{
+      method: "POST",
+      headers: {"content-type":"application/json",
+    "accept":"application/json"},
+      body: JSON.stringify({
+        name: newPlayerForm.name.value
+      })
+    })
+    .then(res => res.json())
+        .then(data => console.log(data))
     // .then(data => createCharacterBoard(data))
-    // newPlayerForm.remove()
+    // .then(newPlayerForm.remove())
   })
   
   document.addEventListener('click', e =>{
@@ -33,11 +41,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // The 3 lines below belong within the submit function above
       // here for test purposes 
-      fetch("http://localhost:3000/toys")
+      fetch("http://localhost:3000/api/v1/people")
       .then(res => res.json())
       .then(data => createCharacterBoard(data))
 
-      newPlayerForm.remove()
+      // newPlayerForm.remove()
       e.target.parentNode.remove()
     } else if(e.target.className === 'flip-btn'){
       const button = e.target
@@ -64,7 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
     div.className = "card"
     div.innerHTML = `
     <h2>${person.name}</h2>
-    <img src=${person.image} class="person-avatar"/>
+    <img src=${person.picture} class="person-avatar"/>
     <button class="flip-btn"> Flip Card </button>
     `
     return div
