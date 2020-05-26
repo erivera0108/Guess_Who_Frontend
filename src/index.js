@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const body = document.querySelector('body')
   const personDiv = document.querySelector("#game-board")
   const newPlayerForm = document.createElement('form')
-
+  const peopleURL = 'http://localhost:3000/api/v1/people'
   
   newPlayerForm.innerHTML = `<label for="name">Your name:</label>
   <input  type="text" id="name" name="name"><br>
@@ -41,7 +41,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // The 3 lines below belong within the submit function above
       // here for test purposes 
-      fetch("http://localhost:3000/api/v1/people")
+
+      fetch(peopleURL)
+
       .then(res => res.json())
       .then(data => createCharacterBoard(data))
 
