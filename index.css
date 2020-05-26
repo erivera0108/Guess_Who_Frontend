@@ -21,6 +21,11 @@ body {
   box-shadow: 3px 4px #e04b52
 }
 
+.person-avatar {
+  justify-self: center;
+  height: 12rem;
+  width: auto;
+}
 
 
 button {
@@ -43,4 +48,33 @@ button:hover {
 
 .add-toy-form {
   width: 80%
+}
+
+/* Nav Bar */
+/* Add a black background color to the top navigation */
+.top-nav {
+  background-color: #e04b52;
+  overflow: hidden;
+}
+
+/* Style the links inside the navigation bar */
+.top-nav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+/* Change the color of links on hover */
+.top-nav a:hover {
+  background-color: white;
+  color: black;
+}
+
+/* Add a color to the active/current link */
+.top-nav a.active {
+  background-color: #e04b52;
+  color: white;
 }
