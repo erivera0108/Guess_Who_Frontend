@@ -1,49 +1,61 @@
-let addToy = false;
 
 document.addEventListener("DOMContentLoaded", () => {
   const guessWhoImage = document.querySelector('#guess-who-image')
   const body = document.querySelector('body')
   const personDiv = document.querySelector("#game-board")
-
-  
-  // newPlayerForm.innerHTML = `<label for="lname">Your name:</label>
-  // <input id= "" type="text" id="name" name="name"><br><br>
-  // <input id= "submit-button" type="submit" value="Submit"></input>`
-  
-  // const backButton = document.createElement('button')
-  // backButton.innerText = "Back"
-  // newPlayerForm.id = "new-player-form"
-  
   const newPlayerForm = document.createElement('form')
 
+  
+  newPlayerForm.innerHTML = `<label for="lname">Your name:</label>
+  <input id= "" type="text" id="name" name="name"><br><br>
+  <input id= "submit-button" type="submit" value="Submit"></input>`
+  
+  const backButton = document.createElement('button')
+  backButton.innerText = "Back"
+  newPlayerForm.id = "new-player-form"
+  
+
   document.addEventListener("submit", function(e){
-    if(e.target.className === '#submit-button'){
-      // POST
-    }
+    e.preventDefault()
+
+    // fetch("http://localhost:3000/toys")
+    // .then(res => res.json())
+    // .then(data => createCharacterBoard(data))
+    // newPlayerForm.remove()
   })
   
   document.addEventListener('click', e =>{
-    console.log('pressed')
     if(e.target.className === 'play-btn'){
+
       guessWhoImage.remove()
-      // body.appendChild(newPlayerForm)
-      // body.appendChild(backButton)
+      body.appendChild(newPlayerForm)
+      body.appendChild(backButton)
+
+      // The 3 lines below belong within the submit function above
+      // here for test purposes 
+      fetch("http://localhost:3000/toys")
+      .then(res => res.json())
+      .then(data => createCharacterBoard(data))
+
+      newPlayerForm.remove()
       e.target.parentNode.remove()
+    } else if(e.target.className === 'flip-btn'){
+      const button = e.target
+      const buttonParentNode = button.parentNode
+      buttonParentNode.remove()
+      // console.log(buttonParentNode)
     }
     
-    fetch("http://localhost:3000/toys")
-    .then(res => res.json())
-    .then(data => createCharacterBoard(data))
+    
   })
-  // .then(data => console.log(data))
 
   function createCharacterBoard(people){
       people.forEach(function(personInfo){
       // console.log(personInfo)
-    const personLi = createPersonDiv(personInfo)
-    // const personLi = document.createElement('li')
-    // personLi.innerText = "beef"
-    personDiv.append(personLi)
+      const personLi = createPersonDiv(personInfo)
+      // const personLi = document.createElement('li')
+      // personLi.innerText = "beef"
+      personDiv.append(personLi)
     })
   }
 
