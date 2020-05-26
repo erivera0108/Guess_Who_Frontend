@@ -32,8 +32,8 @@ document.addEventListener("DOMContentLoaded", () => {
       })
     })
     .then(res => res.json())
-    .then(data => createCharacterBoard(data))
-    newPlayerForm.remove()
+    // .then(data => createCharacterBoard(data))
+    // newPlayerForm.remove()
   })
   
   document.addEventListener('click', e =>{
