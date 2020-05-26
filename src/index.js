@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const body = document.querySelector('body')
   const personDiv = document.querySelector("#game-board")
   const newPlayerForm = document.createElement('form')
-
+  const peopleURL = 'http://localhost:3000/api/v1/people'
   
   newPlayerForm.innerHTML = `<label for="lname">Your name:</label>
   <input id= "" type="text" id="name" name="name"><br><br>
@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // The 3 lines below belong within the submit function above
       // here for test purposes 
-      fetch("http://localhost:3000/toys")
+      fetch(peopleURL)
       .then(res => res.json())
       .then(data => createCharacterBoard(data))
 
@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
     div.className = "card"
     div.innerHTML = `
     <h2>${person.name}</h2>
-    <img src=${person.image} class="person-avatar"/>
+    <img src=${person.picture} class="person-avatar"/>
     <button class="flip-btn"> Flip Card </button>
     `
     return div
