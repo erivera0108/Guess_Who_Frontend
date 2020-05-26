@@ -1,4 +1,3 @@
-
 document.addEventListener("DOMContentLoaded", () => {
   const guessWhoImage = document.querySelector('#guess-who-image')
   const body = document.querySelector('body')
@@ -9,11 +8,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const playerURL = 'http://localhost:3000/api/v1/players'
   const backButton = document.createElement('button')
   backButton.innerText = "Back"
-  
+  let entireBody = document.getElementsByClassName('body')
   newPlayerForm.innerHTML = `<label for="name">Your name:</label>
   <input  type="text" id="name" name="name"><br>
   <input id= "submit-button" type="submit" value="Submit"></input>`
-  
+
 
 
   
@@ -32,6 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(res => res.json())
         .then(data => console.log(data))
         .then(newPlayerForm.remove)
+        
     // .then(data => createCharacterBoard(data))
     // .then(newPlayerForm.remove())
   })
