@@ -1,3 +1,6 @@
+font {
+  
+} 
 body {
   margin: 0;
   font-family: monospace;
@@ -18,14 +21,12 @@ body {
   height: 25rem;
   display: inline-grid;
   margin: 1rem 2rem;
-  box-shadow: 3px 4px #e04b52
+  box-shadow: 3px 4px #ff6666
 }
-
-
 
 button {
   position: relative;
-  background-color: #e04b52;
+  background-color: #ff6666;
   border: none;
   border-radius: 5px;
   height: 3rem;
@@ -37,10 +38,11 @@ button {
 
 button:hover {
   background-color: whitesmoke;
-  border: #e04b52 solid 1px;
-  color: #e04b52;
+  border: #ff6666 solid 1px;
+  color: #ff6666;
 }
 
 .add-toy-form {
   width: 80%
 }
+
