@@ -1,3 +1,4 @@
+
 document.addEventListener("DOMContentLoaded", () => {
   const guessWhoImage = document.querySelector('#guess-who-image')
   const body = document.querySelector('body')
@@ -8,10 +9,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const playerURL = 'http://localhost:3000/api/v1/players'
   const backButton = document.createElement('button')
   backButton.innerText = "Back"
-  let entireBody = document.getElementsByClassName('body')
-  newPlayerForm.innerHTML = `<label for="name">Your name:</label>
+  
+  newPlayerForm.innerHTML = `<label for="name">Your Name:</label>
   <input  type="text" id="name" name="name"><br>
-  <input id= "char-submit-button" type="submit" value="Submit"></input>`
+  <input id= "submit-button" type="submit" value="Submit"></input>`
   const editNav = document.getElementById("edit-nav")
 
   const newPersonForm = document.createElement('form')
@@ -19,8 +20,8 @@ document.addEventListener("DOMContentLoaded", () => {
   <input  type="text" id="char" name="name"><br>
   <label for="name">Character Image:</label>
   <input  type="text" id="pic" name="name"><br></br>
-  <input id= "submit-button" type="submit" value="Submit"></input>`
-
+  <input id= "char-submit-button" type="submit" value="Submit"></input>`
+  const welcomeMessage = document.querySelector('.welcome-message')
 
 
   
@@ -38,25 +39,25 @@ document.addEventListener("DOMContentLoaded", () => {
       })
     })
     .then(res => res.json())
-
-        .then(data => console.log(data))
+    .then(data => console.log(data))
         
     // .then(data => createCharacterBoard(data))
     // .then(newPlayerForm.remove())
   } else if(e.target.id === "char-submit-button"){
     e.preventDefault()
-    console.log(newPlayerForm.name.value)
+    console.log(newPersonForm.name.value)
+    console.log(newPersonForm.pic.value)
     fetch(peopleURL,{
       method: "POST",
       headers: {"content-type":"application/json",
     "accept":"application/json"},
       body: JSON.stringify({
-        name: newPersonForm.name.value
+        name: newPersonForm.name.value,
+        picture: newPersonForm.pic.value
       })
     })
     .then(res => res.json())
-
-        .then(data => console.log(data))
+    .then(data => console.log(data))
   }
   })
   
@@ -66,6 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
       guessWhoImage.remove()
       body.appendChild(newPlayerForm)
       body.appendChild(backButton)
+      
 
       // The 3 lines below belong within the submit function above
       // here for test purposes 
@@ -83,6 +85,9 @@ document.addEventListener("DOMContentLoaded", () => {
       buttonParentNode.remove()
       // console.log(buttonParentNode)
     } else if(e.target.id === "edit-nav"){
+      body.appendChild(newPersonForm)
+      body.appendChild(backButton)
+      newPersonForm.reset()
     }
     
     
@@ -101,6 +106,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function createPersonDiv(person){
     let div = document.createElement('div')
     div.className = "card"
+    div.dataset.id = person.id
     div.innerHTML = `
     <h2>${person.name}</h2>
     <img src=${person.picture} class="person-avatar"/>
@@ -108,6 +114,8 @@ document.addEventListener("DOMContentLoaded", () => {
     `
     return div
   }
+
+  // function cre
   
 
 
