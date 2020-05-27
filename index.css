@@ -1,3 +1,13 @@
+:root{
+--flatironBlue: #00b3e6
+}
+
+
+*{
+  box-sizing: border-box;
+}
+
+
 body {
   margin: 0;
   font-family: monospace;
@@ -6,7 +16,7 @@ body {
 #guess-who-image {
   display: flex;
   justify-content: center;
-  opacity: .8;
+  /* opacity: .8; */
   padding: 1rem;
 }
 
@@ -14,23 +24,24 @@ body {
   text-align: center;
   border: grey solid 1px;
   padding: 1rem;
-  width: 15rem;
-  height: 25rem;
+  width: 10rem;
+  height: 15rem;
   display: inline-grid;
-  margin: 1rem 2rem;
-  box-shadow: 3px 4px #e04b52
+  margin: 1rem 1rem;
+  box-shadow: 3px 4px var(--flatironBlue)
 }
 
 .person-avatar {
   justify-self: center;
-  height: 12rem;
-  width: auto;
+  height: auto;
+  width: 95%;
+  padding: 5px;
 }
 
 
 button {
   position: relative;
-  background-color: #e04b52;
+  background-color: var(--flatironBlue);
   border: none;
   border-radius: 5px;
   height: 3rem;
@@ -40,10 +51,24 @@ button {
   justify-self: center;
 }
 
+.flip-btn{
+  position: relative;
+  background-color: var(--flatironBlue);
+  border: none;
+  border-radius: 5px;
+  height: 18px;
+  width: max-content;
+  color: whitesmoke;
+  font-size: 12px;
+  justify-self: center;
+}
+
+
+
 button:hover {
   background-color: whitesmoke;
-  border: #e04b52 solid 1px;
-  color: #e04b52;
+  border: var(--flatironBlue) solid 1px;
+  color: var(--flatironBlue);
 }
 
 .add-toy-form {
@@ -53,7 +78,7 @@ button:hover {
 /* Nav Bar */
 /* Add a black background color to the top navigation */
 .top-nav {
-  background-color: #e04b52;
+  background-color: var(--flatironBlue);
   overflow: hidden;
 }
 
@@ -75,6 +100,6 @@ button:hover {
 
 /* Add a color to the active/current link */
 .top-nav a.active {
-  background-color: #e04b52;
+  background-color: var(--flatironBlue);
   color: white;
 }

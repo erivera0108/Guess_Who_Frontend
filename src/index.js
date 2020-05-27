@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   
-
+/** 
   document.addEventListener("submit", function(e){
     e.preventDefault()
     console.log(newPlayerForm.name.value)
@@ -34,13 +34,15 @@ document.addEventListener("DOMContentLoaded", () => {
     })
     .then(res => res.json())
     .then(renderPlayer)
-
-    fetch(peopleURL)
-    .then(res => res.json())
-    .then(data => createCharacterBoard(data))
+    //This where the first GET request should take place Don't delete
+      //fetch(peopleURL)
+      //.then(res => res.json())
+      //.then(data => createCharacterBoard(data))
+      
 
     newPlayerForm.remove()
   })
+*/
 
   function renderPlayer(player) {
     const playerHeader = document.createElement('h1')
@@ -60,9 +62,9 @@ document.addEventListener("DOMContentLoaded", () => {
       // The 3 lines below belong within the submit listener above
       // here for test purposes 
 
-      // fetch(peopleURL)
-      // .then(res => res.json())
-      // .then(data => createCharacterBoard(data))
+      fetch(peopleURL)
+      .then(res => res.json())
+      .then(data => createCharacterBoard(data))
 
       // newPlayerForm.remove()
       e.target.parentNode.remove()
@@ -70,7 +72,18 @@ document.addEventListener("DOMContentLoaded", () => {
     } else if(e.target.className === 'flip-btn'){
       const button = e.target
       const buttonParentNode = button.parentNode
-      buttonParentNode.remove()
+      const name = buttonParentNode.children[0]
+      const image = buttonParentNode.children[1]
+        if (image.style.filter === '') {
+          image.style.filter = 'grayscale(100%)'
+          // image.style.visibility = "hidden"
+          name.style.visibility = 'hidden'
+        } else {
+          image.style.filter = ''
+          // image.style.visibility = ''
+          name.style.visibility = ''
+        }
+      // buttonParentNode.remove()
     }
     
     
@@ -91,7 +104,7 @@ document.addEventListener("DOMContentLoaded", () => {
     div.className = "card"
     div.dataset.id = person.id
     div.innerHTML = `
-    <h2>${person.name}</h2>
+    <h2 >${person.name}</h2>
     <img src=${person.picture} class="person-avatar"/>
     <button class="flip-btn"> Flip Card </button>
     `
