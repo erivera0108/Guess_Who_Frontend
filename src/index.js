@@ -131,7 +131,11 @@ console.log('hey')
         alert("No cheating!")
         newPersonForm.remove()
       }
-    } 
+    } else if (e.target.id === 'del'){
+      fetch(peopleURL)
+      .then(res => res.json())
+      .then(data => createCharacterBoard(data))
+    }
     
     
   })
@@ -139,23 +143,45 @@ console.log('hey')
   function createCharacterBoard(people){
       people.forEach(function(personInfo){
       // console.log(personInfo)
-      const personLi = createPersonDiv(personInfo)
+      const deletePersonLi = deletePersonDiv(personInfo)
       // const personLi = document.createElement('li')
       // personLi.innerText = "beef"
-      personDiv.append(personLi)
+      deletePersonLi.append(personLi)
     })
   }
 
-  function createPersonDiv(person){
-    let div = document.createElement('div')
-    div.className = "card"
-    div.dataset.id = person.id
-    div.innerHTML = `
+  function deletePersonDiv(person){
+    let divDelete = document.createElement('div')
+    divDelete.className = "card"
+    divDelete.dataset.id = person.id
+    divDelete.innerHTML = `
     <h2>${person.name}</h2>
     <img src=${person.picture} class="person-avatar"/>
     <button class="flip-btn"> Flip Card </button>
     `
     return div
+  }
+
+    function deleteCharacterBoard(people){
+      people.forEach(function(personInfo){
+      // console.log(personInfo)
+      const deletePersonLi = createPersonDeleteDiv(personInfo)
+      // const personLi = document.createElement('li')
+      // personLi.innerText = "beef"
+      divDelete.append(deletePersonLi)
+    })
+  }
+
+  function createPersonDeleteDiv(person){
+    let divDelete = document.createElement('div')
+    divDelete.className = "card"
+    divDelete.dataset.id = person.id
+    divDelete.innerHTML = `
+    <h2>${person.name}</h2>
+    <img src=${person.picture} class="person-avatar"/>
+    <button class="delete-card"> Delete</button>
+    `
+    return divDelete
   }
 
   // function cre
