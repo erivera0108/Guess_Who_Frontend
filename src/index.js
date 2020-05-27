@@ -3,14 +3,16 @@ document.addEventListener("DOMContentLoaded", () => {
   const guessWhoImage = document.querySelector('#guess-who-image')
   const body = document.querySelector('body')
   const personDiv = document.querySelector("#game-board")
-  const newPlayerForm = document.createElement('form')
-  newPlayerForm.id = "new-player-form"
   const peopleURL = 'http://localhost:3000/api/v1/people'
   const playerURL = 'http://localhost:3000/api/v1/players'
-  const backButton = document.createElement('button')
-  backButton.innerText = "Back"
+  // const backButton = document.createElement('button')
+  // backButton.innerText = "Back"
+  const welcomeDiv = document.querySelector('#welcome-message')
   
-  newPlayerForm.innerHTML = `<label for="name">Your Name:</label>
+  
+  const newPlayerForm = document.createElement('form')
+  newPlayerForm.id = "new-player-form"
+  newPlayerForm.innerHTML = `<label for="name">Your name:</label>
   <input  type="text" id="name" name="name"><br>
   <input id= "submit-button" type="submit" value="Submit"></input>`
   const editNav = document.getElementById("edit-nav")
@@ -32,13 +34,15 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log(newPlayerForm.name.value)
     fetch(playerURL,{
       method: "POST",
-      headers: {"content-type":"application/json",
-    "accept":"application/json"},
+      headers: {
+        "content-type":"application/json",
+        "accept":"application/json"},
       body: JSON.stringify({
         name: newPlayerForm.name.value
       })
     })
     .then(res => res.json())
+<<<<<<< HEAD
     .then(data => console.log(data))
         
     // .then(data => createCharacterBoard(data))
@@ -59,35 +63,59 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(res => res.json())
     .then(data => console.log(data))
   }
+=======
+    .then(renderPlayer)
+
+    fetch(peopleURL)
+    .then(res => res.json())
+    .then(data => createCharacterBoard(data))
+
+    newPlayerForm.remove()
+>>>>>>> a706d4c27a8e182f50a3700088b34b1183e8ce94
   })
+
+  function renderPlayer(player) {
+    const playerHeader = document.createElement('h1')
+    playerHeader.innerText = `Welcome ${player.name}`
+    console.log(playerHeader)
+    welcomeDiv.append(playerHeader)
+  }
   
   document.addEventListener('click', e =>{
     if(e.target.className === 'play-btn'){
+      const playBtn = e.target.parentNode
 
       guessWhoImage.remove()
       body.appendChild(newPlayerForm)
+<<<<<<< HEAD
       body.appendChild(backButton)
       
+=======
+      playBtn.remove()
+>>>>>>> a706d4c27a8e182f50a3700088b34b1183e8ce94
 
-      // The 3 lines below belong within the submit function above
+      // The 3 lines below belong within the submit listener above
       // here for test purposes 
 
-      fetch(peopleURL)
-
-      .then(res => res.json())
-      .then(data => createCharacterBoard(data))
+      // fetch(peopleURL)
+      // .then(res => res.json())
+      // .then(data => createCharacterBoard(data))
 
       // newPlayerForm.remove()
       e.target.parentNode.remove()
+
     } else if(e.target.className === 'flip-btn'){
       const button = e.target
       const buttonParentNode = button.parentNode
       buttonParentNode.remove()
+<<<<<<< HEAD
       // console.log(buttonParentNode)
     } else if(e.target.id === "edit-nav"){
       body.appendChild(newPersonForm)
       body.appendChild(backButton)
       newPersonForm.reset()
+=======
+>>>>>>> a706d4c27a8e182f50a3700088b34b1183e8ce94
     }
     
     
