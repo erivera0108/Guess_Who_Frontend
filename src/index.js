@@ -101,7 +101,6 @@ document.addEventListener("DOMContentLoaded", () => {
     } else if(e.target.className === 'flip-btn'){
       const button = e.target
       const buttonParentNode = button.parentNode
-<<<<<<< HEAD
       const name = buttonParentNode.children[0]
       const image = buttonParentNode.children[1]
         if (image.style.filter === '') {
@@ -113,18 +112,11 @@ document.addEventListener("DOMContentLoaded", () => {
           // image.style.visibility = ''
           name.style.visibility = ''
         }
-      // buttonParentNode.remove()
-=======
-      buttonParentNode.remove()
-<<<<<<< HEAD
-      // console.log(buttonParentNode)
+        
     } else if(e.target.id === "edit-nav"){
       body.appendChild(newPersonForm)
       body.appendChild(backButton)
       newPersonForm.reset()
-=======
->>>>>>> a706d4c27a8e182f50a3700088b34b1183e8ce94
->>>>>>> 745439c7a05fb3dc914680c2340b776057e806d7
     }
     
     
