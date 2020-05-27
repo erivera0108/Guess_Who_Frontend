@@ -7,42 +7,31 @@ document.addEventListener("DOMContentLoaded", () => {
   const backButton = document.createElement('button')
   backButton.innerHTML = `<a href="">Back</a>`
   const welcomeDiv = document.querySelector('#welcome-message')
-  const playBtn = document.getElementById('select-version')
-
+  
   
   const newPlayerForm = document.createElement('form')
   newPlayerForm.id = "new-player-form"
-  newPlayerForm.innerHTML = `<h2>New Player</h2><label for="name">Your name:</label>
+  newPlayerForm.innerHTML = `<label for="name">Your name:</label>
   <input  type="text" id="name" name="name"><br>
   <input id= "submit-button" type="submit" value="Submit"></input>`
 
 
   const newPersonForm = document.createElement('form')
   newPersonForm.id = "new-person-form"
-  newPersonForm.innerHTML = `<h2>Create Character</h2><label for="name">Person's name:</label>
+  newPersonForm.innerHTML = `<label for="name">Person's name:</label>
   <input  type="text" id="char-name" name="name"><br>
   <label for="name">Person's Pic</label>
   <input  type="text" id="char-pic" name="pic"><br>
   <input id= "char-submit-button" type="submit" value="Submit"></input>`
+  
 
-  const delPersonForm = document.createElement('form')
-  delPersonForm.id = "del-person-form"
-  delPersonForm.innerHTML = `<h2>Remove Character</h2><br><label for="name">Person's name:</label>
-  <input  type="text" id="del-name" name="name"><br>
-  <input id= "submit-button" type="submit" value="Delete"></input>`
 
-  function createNotAppend(people){
-    people.forEach(function(personInfo){
-    const personListItem = createPersonDiv(personInfo)})}
-
-    fetch(peopleURL)
-    .then(r => r.json())
-    .then(data => createNotAppend(data))
   
 
   document.addEventListener("submit", function(e){
     e.preventDefault()
     if(e.target === newPlayerForm){
+    console.log(newPlayerForm.name.value)
     fetch(playerURL,{
       method: "POST",
       headers: {
@@ -54,15 +43,15 @@ document.addEventListener("DOMContentLoaded", () => {
     })
     .then(res => res.json())
     .then(renderPlayer)
-
+console.log('hey')
     fetch(peopleURL)
     .then(res => res.json())
     .then(data => createCharacterBoard(data))
 
     newPlayerForm.remove()
-    delPersonForm.remove()
     alert("You may not make changes to the gameboard once match starts!")
   } else if (e.target === newPersonForm){
+    console.log(newPersonForm.name.value, newPersonForm.pic.value)
   
     fetch(peopleURL, {
       method: "POST",
@@ -74,31 +63,13 @@ document.addEventListener("DOMContentLoaded", () => {
         picture: newPersonForm.pic.value
     })
   })
-  .then(res => res.json())
+  .then(res => res.json)
 
-  fetch(peopleURL)
+  .then(()=>{fetch(peopleURL)
   .then(res => res.json())
   .then(data => createCharacterBoard(data))
   newPersonForm.remove()
-  backButton.remove()
-  } 
-  else if (e.target === delPersonForm){
-    console.log(div)
-//     if (e.target.name.value === ){
-  
-//     fetch(peopleURL+`/${}`, {
-//       method: "DELETE",
-//       headers: {
-//         "content-type":"application/json",
-//         "accept":"application/json"}
-//   })
-
-//   fetch(peopleURL)
-//   .then(res => res.json())
-//   .then(data => createCharacterBoard(data))
-//   .then(alert("The character has been deleted."))
-//   .then(delPersonForm.remove())
-// }
+  backButton.remove()})
   }
   })
 
@@ -106,6 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const playerHeader = document.createElement('h1')
     playerHeader.id = "welcome-header"
     playerHeader.innerText = `Welcome ${player.name}`
+    console.log(playerHeader)
     welcomeDiv.append(playerHeader)
   }
   
@@ -145,44 +117,28 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     } else if (e.target.id === 'edit'){
       newPlayerForm.remove()
-      delPersonForm.remove()
       const welcomeHeader = document.querySelector('#welcome-header')
+      const playBtn = document.getElementById('select-version')
       if (!welcomeHeader){
-        playBtn.remove()
+        if (playBtn)
+        {playBtn.remove()}
       }
       guessWhoImage.remove()
-      delPersonForm.remove()
-      personDiv.remove()
       body.appendChild(newPersonForm)
       body.appendChild(backButton)
-
       
       if (welcomeHeader){
         alert("No cheating!")
         newPersonForm.remove()
       }
-    } else if (e.target.id === 'del'){
-      guessWhoImage.remove()
-      newPersonForm.remove()
-      newPlayerForm.remove()
-      const welcomeHeader = document.querySelector('#welcome-header')
-      if (!welcomeHeader){
-        playBtn.remove()
-      }
-      body.appendChild(delPersonForm)
-      body.appendChild(backButton)
-      playBtn.remove()
-      if (welcomeHeader){
-        alert("No cheating!")
-        newPersonForm.remove()
-      }
-    }
+    } 
     
     
   })
 
   function createCharacterBoard(people){
       people.forEach(function(personInfo){
+      // console.log(personInfo)
       const personLi = createPersonDiv(personInfo)
       // const personLi = document.createElement('li')
       // personLi.innerText = "beef"
