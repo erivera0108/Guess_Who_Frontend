@@ -5,8 +5,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const personDiv = document.querySelector("#game-board")
   const peopleURL = 'http://localhost:3000/api/v1/people'
   const playerURL = 'http://localhost:3000/api/v1/players'
-  // const backButton = document.createElement('button')
-  // backButton.innerText = "Back"
+  const backButton = document.createElement('button')
+  backButton.innerHTML = `<a href="">Back</a>`
   const welcomeDiv = document.querySelector('#welcome-message')
   
   
@@ -15,15 +15,14 @@ document.addEventListener("DOMContentLoaded", () => {
   newPlayerForm.innerHTML = `<label for="name">Your name:</label>
   <input  type="text" id="name" name="name"><br>
   <input id= "submit-button" type="submit" value="Submit"></input>`
-  const editNav = document.getElementById("edit-nav")
-
+  
   const newPersonForm = document.createElement('form')
-  newPersonForm.innerHTML =   `<label for="name">Character Name:</label>
-  <input  type="text" id="char" name="name"><br>
-  <label for="name">Character Image:</label>
-  <input  type="text" id="pic" name="name"><br></br>
+  newPersonForm.id = "new-person-form"
+  newPersonForm.innerHTML = `<label for="name">Character's name:</label>
+  <input  type="text" id="name" name="char-name"><br>
+  <label for="pic">Character's picture:</label>
+  <input  type="text" id="pic" name="char-pic"><br>
   <input id= "char-submit-button" type="submit" value="Submit"></input>`
-  const welcomeMessage = document.querySelector('.welcome-message')
 
 
   
@@ -42,28 +41,6 @@ document.addEventListener("DOMContentLoaded", () => {
       })
     })
     .then(res => res.json())
-<<<<<<< HEAD
-    .then(data => console.log(data))
-        
-    // .then(data => createCharacterBoard(data))
-    // .then(newPlayerForm.remove())
-  } else if(e.target.id === "char-submit-button"){
-    e.preventDefault()
-    console.log(newPersonForm.name.value)
-    console.log(newPersonForm.pic.value)
-    fetch(peopleURL,{
-      method: "POST",
-      headers: {"content-type":"application/json",
-    "accept":"application/json"},
-      body: JSON.stringify({
-        name: newPersonForm.name.value,
-        picture: newPersonForm.pic.value
-      })
-    })
-    .then(res => res.json())
-    .then(data => console.log(data))
-  }
-=======
     .then(renderPlayer)
 
     fetch(peopleURL)
@@ -71,7 +48,26 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(data => createCharacterBoard(data))
 
     newPlayerForm.remove()
->>>>>>> a706d4c27a8e182f50a3700088b34b1183e8ce94
+  } else if (e.target.id === "char-submit-button"){
+    e.preventDefault()
+    console.log(newPersonForm.char-name.value)
+    fetch(peopleURL,{
+      method: "POST",
+      headers: {
+        "content-type":"application/json",
+        "accept":"application/json"},
+      body: JSON.stringify({
+        name: newPersonForm.char-name.value,
+        picture: newPersonForm.char-pic.value
+      })
+    })
+    .then(res => res.json())
+    .then(renderPerson)
+
+    fetch(peopleURL)
+    .then(res => res.json())
+    .then(data => createCharacterBoard(data))
+  }
   })
 
   function renderPlayer(player) {
@@ -87,12 +83,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
       guessWhoImage.remove()
       body.appendChild(newPlayerForm)
-<<<<<<< HEAD
       body.appendChild(backButton)
-      
-=======
       playBtn.remove()
->>>>>>> a706d4c27a8e182f50a3700088b34b1183e8ce94
 
       // The 3 lines below belong within the submit listener above
       // here for test purposes 
@@ -102,20 +94,17 @@ document.addEventListener("DOMContentLoaded", () => {
       // .then(data => createCharacterBoard(data))
 
       // newPlayerForm.remove()
-      e.target.parentNode.remove()
 
-    } else if(e.target.className === 'flip-btn'){
+    } else if(e.target.className.id === 'flip-btn'){
       const button = e.target
       const buttonParentNode = button.parentNode
       buttonParentNode.remove()
-<<<<<<< HEAD
-      // console.log(buttonParentNode)
-    } else if(e.target.id === "edit-nav"){
+    } else if(e.target.id === 'edit'){
+      const playBtn = document.getElementById('choices-button')
+      playBtn.remove()
+      guessWhoImage.remove()
       body.appendChild(newPersonForm)
       body.appendChild(backButton)
-      newPersonForm.reset()
-=======
->>>>>>> a706d4c27a8e182f50a3700088b34b1183e8ce94
     }
     
     
