@@ -10,6 +10,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const winBtn = document.createElement('button')
   winBtn.id = 'win-btn'
   winBtn.innerText = 'WINNER'
+
+  const loseBtn = document.createElement('button')
+  loseBtn.id = 'lose-btn'
+  loseBtn.innerText = 'LOSER'
+
   const leaderBoard = document.createElement('div')
 
   const delPersonForm = document.createElement('form')
@@ -88,39 +93,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   })
 
-  function renderPlayer(player) {
-    const playerHeader = document.createElement('h1')
-    playerHeader.id = "welcome-header"
-    playerHeader.innerText = `Welcome ${player.name}`
-    welcomeDiv.dataset.id = player.id
-    welcomeDiv.dataset.wins = player.wins
-    welcomeDiv.dataset.name = player.name
-    
-    console.log(playerHeader)
-    welcomeDiv.append(playerHeader)
-    welcomeDiv.append(winBtn)
-  }
+  
   
   document.addEventListener('click', e =>{
-    if(e.target.className === 'play-btn'){
-      const playBtn = e.target.parentNode
-
-      guessWhoImage.remove()
-      body.appendChild(newPlayerForm)
-      body.appendChild(backButton)
-      playBtn.remove()
-     
-
-      // The 3 lines below belong within the submit listener above
-      // here for test purposes 
-
-      // fetch(peopleURL)
-      // .then(res => res.json())
-      // .then(data => createCharacterBoard(data))
-      // welcomeDiv.append(winBtn)
-
-      // newPlayerForm.remove()
-      e.target.parentNode.remove()
+    if(e.target.id === 'pvp'){
+      playerCreation(e)
+    } else if (e.target.id === 'pve'){
+      playerCreation(e)
 
     } else if(e.target.className === 'flip-btn'){
       const button = e.target
@@ -154,43 +133,38 @@ document.addEventListener("DOMContentLoaded", () => {
         newPersonForm.remove()
       }
     } else if(e.target.id == 'win-btn'){
-      const btn = e.target
       const playerId = welcomeDiv.dataset.id
-
-      const winScore = welcomeDiv.dataset.wins
       welcomeDiv.dataset.wins = parseInt(welcomeDiv.dataset.wins) + 1
-
-
-
-
 
       fetch(`${playerURL}/${playerId}`,{
         method: 'PATCH',
         headers:{
           'accept': 'application/json',
           'content-type': 'application/json'
-        },
+          },
         body: JSON.stringify({
-          
           wins: parseInt(welcomeDiv.dataset.wins)})
-      }
-      )
-      // fetch(peopleURL, {
-      //   method: "POST",
-      //   headers: {
-      //     "content-type":"application/json",
-      //     "accept":"application/json"},
-      //   body: JSON.stringify({
-      //     name: newPersonForm.name.value,
-      //     picture: newPersonForm.pic.value
-      // })
-    // })
+      })
+      .then(res => res.json())
+      .then(console.log)
+    } else if(e.target.id == 'lose-btn'){
+      const playerId = welcomeDiv.dataset.id
+      welcomeDiv.dataset.lose = parseInt(welcomeDiv.dataset.lose) + 1
 
-
-
+      fetch(`${playerURL}/${playerId}`,{
+        method: 'PATCH',
+        headers:{
+          'accept': 'application/json',
+          'content-type': 'application/json'
+          },
+        body: JSON.stringify({
+          losses:  welcomeDiv.dataset.lose
+        })
+      })
       .then(res => res.json())
       .then(console.log)
     } 
+
     else if (e.target.id === 'del'){
       fetch(peopleURL)
       .then(res => res.json())
@@ -234,6 +208,19 @@ document.addEventListener("DOMContentLoaded", () => {
     
     
   })
+
+
+
+  function playerCreation(e){
+    const playBtn = e.target.parentNode
+
+    guessWhoImage.remove()
+    body.appendChild(newPlayerForm)
+    body.appendChild(backButton)
+    playBtn.remove()
+
+    e.target.parentNode.remove()
+  }
 
   function createCharacterBoard(people){
       people.forEach(function(personInfo){
@@ -279,6 +266,22 @@ document.addEventListener("DOMContentLoaded", () => {
     <button class="del-btn"> Delete Character </button>
     `
     return div
+  }
+
+  function renderPlayer(player) {
+    const playerHeader = document.createElement('h1')
+    playerHeader.id = "welcome-header"
+    playerHeader.innerText = `Welcome ${player.name}`
+    welcomeDiv.dataset.id = player.id
+    welcomeDiv.dataset.wins = player.wins
+    welcomeDiv.dataset.lose = player.losses
+    welcomeDiv.dataset.name = player.name
+    
+    console.log(playerHeader)
+    welcomeDiv.append(playerHeader)
+    welcomeDiv.append(winBtn)
+    welcomeDiv.append(loseBtn)
+
   }
 
 
