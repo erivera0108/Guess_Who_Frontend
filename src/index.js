@@ -88,39 +88,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   })
 
-  function renderPlayer(player) {
-    const playerHeader = document.createElement('h1')
-    playerHeader.id = "welcome-header"
-    playerHeader.innerText = `Welcome ${player.name}`
-    welcomeDiv.dataset.id = player.id
-    welcomeDiv.dataset.wins = player.wins
-    welcomeDiv.dataset.name = player.name
-    
-    console.log(playerHeader)
-    welcomeDiv.append(playerHeader)
-    welcomeDiv.append(winBtn)
-  }
+  
   
   document.addEventListener('click', e =>{
-    if(e.target.className === 'play-btn'){
-      const playBtn = e.target.parentNode
-
-      guessWhoImage.remove()
-      body.appendChild(newPlayerForm)
-      body.appendChild(backButton)
-      playBtn.remove()
-     
-
-      // The 3 lines below belong within the submit listener above
-      // here for test purposes 
-
-      // fetch(peopleURL)
-      // .then(res => res.json())
-      // .then(data => createCharacterBoard(data))
-      // welcomeDiv.append(winBtn)
-
-      // newPlayerForm.remove()
-      e.target.parentNode.remove()
+    if(e.target.id === 'pvp'){
+      playerCreation(e)
+    } else if (e.target.id === 'pve'){
+      playerCreation(e)
 
     } else if(e.target.className === 'flip-btn'){
       const button = e.target
@@ -235,6 +209,19 @@ document.addEventListener("DOMContentLoaded", () => {
     
   })
 
+
+
+  function playerCreation(e){
+    const playBtn = e.target.parentNode
+
+    guessWhoImage.remove()
+    body.appendChild(newPlayerForm)
+    body.appendChild(backButton)
+    playBtn.remove()
+
+    e.target.parentNode.remove()
+  }
+
   function createCharacterBoard(people){
       people.forEach(function(personInfo){
       // console.log(personInfo)
@@ -279,6 +266,19 @@ document.addEventListener("DOMContentLoaded", () => {
     <button class="del-btn"> Delete Character </button>
     `
     return div
+  }
+
+  function renderPlayer(player) {
+    const playerHeader = document.createElement('h1')
+    playerHeader.id = "welcome-header"
+    playerHeader.innerText = `Welcome ${player.name}`
+    welcomeDiv.dataset.id = player.id
+    welcomeDiv.dataset.wins = player.wins
+    welcomeDiv.dataset.name = player.name
+    
+    console.log(playerHeader)
+    welcomeDiv.append(playerHeader)
+    welcomeDiv.append(winBtn)
   }
 
 
