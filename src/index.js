@@ -7,7 +7,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const backButton = document.createElement('button')
   backButton.innerHTML = `<a href="">Back</a>`
   const welcomeDiv = document.querySelector('#welcome-message')
-
+  const winBtn = document.createElement('button')
+  winBtn.id = 'win-btn'
+  winBtn.innerText = 'WINNER'
+  const leaderBoard = document.createElement('div')
 
   const delPersonForm = document.createElement('form')
   delPersonForm.id = "del-player-form"
@@ -29,24 +32,27 @@ document.addEventListener("DOMContentLoaded", () => {
   <label for="name">Person's Pic</label>
   <input  type="text" id="char-pic" name="pic"><br>
   <input id= "char-submit-button" type="submit" value="Submit"></input>`
+
+  const globalVar = {delDiv : null}
   
   document.addEventListener("submit", function(e){
     e.preventDefault()
     if(e.target === newPlayerForm){
-    console.log(newPlayerForm.name.value)
+
     fetch(playerURL,{
       method: "POST",
       headers: {
         "content-type":"application/json",
         "accept":"application/json"},
       body: JSON.stringify({
-        name: newPlayerForm.name.value
+        name: newPlayerForm.name.value,
+        wins: 0,
+        losses: 0
       })
     })
     .then(res => res.json())
     .then(renderPlayer)
 
-console.log('hey')
     fetch(peopleURL)
     .then(res => res.json())
     .then(data => createCharacterBoard(data))
@@ -64,26 +70,31 @@ console.log('hey')
       body: JSON.stringify({
         name: newPersonForm.name.value,
         picture: newPersonForm.pic.value
+      })
     })
-  })
-  .then(res => res.json())
-  .then(console.log)
 
-  fetch(peopleURL)
-  .then(res => res.json())
-  .then(data => createCharacterBoard(data))
-  newPersonForm.remove()
-  backButton.remove()
+    .then(res => res.json)
+    .then(()=>{
+      fetch(peopleURL)
+      .then(res => res.json())
+      .then(data => createCharacterBoard(data))
+      newPersonForm.reset()
+    })
+    }
 
-  }
   })
 
   function renderPlayer(player) {
     const playerHeader = document.createElement('h1')
     playerHeader.id = "welcome-header"
     playerHeader.innerText = `Welcome ${player.name}`
+    welcomeDiv.dataset.id = player.id
+    welcomeDiv.dataset.wins = player.wins
+    welcomeDiv.dataset.name = player.name
+    
     console.log(playerHeader)
     welcomeDiv.append(playerHeader)
+    welcomeDiv.append(winBtn)
   }
   
   document.addEventListener('click', e =>{
@@ -95,12 +106,14 @@ console.log('hey')
       body.appendChild(backButton)
       playBtn.remove()
 
+
       // The 3 lines below belong within the submit listener above
       // here for test purposes 
 
       // fetch(peopleURL)
       // .then(res => res.json())
       // .then(data => createCharacterBoard(data))
+      // welcomeDiv.append(winBtn)
 
       // newPlayerForm.remove()
 
@@ -121,19 +134,99 @@ console.log('hey')
         }
     } else if (e.target.id === 'edit'){
       newPlayerForm.remove()
+      personDiv.innerHTML=""
+      guessWhoImage.remove()
       const welcomeHeader = document.querySelector('#welcome-header')
       const playBtn = document.getElementById('select-version')
       if (!welcomeHeader){
-        playBtn.remove()
+        if (playBtn)
+        {playBtn.remove()
+        }
       }
-      guessWhoImage.remove()
       body.appendChild(newPersonForm)
       body.appendChild(backButton)
-      
-      if (welcomeHeader){
+      if (welcomeHeader.innerHTML !== null){
         alert("No cheating!")
         newPersonForm.remove()
       }
+    } else if(e.target.id == 'win-btn'){
+      const btn = e.target
+      const playerId = welcomeDiv.dataset.id
+
+      const winScore = welcomeDiv.dataset.wins
+      welcomeDiv.dataset.wins = parseInt(welcomeDiv.dataset.wins) + 1
+
+
+
+
+
+      fetch(`${playerURL}/${playerId}`,{
+        method: 'PATCH',
+        headers:{
+          'accept': 'application/json',
+          'content-type': 'application/json'
+        },
+        body: JSON.stringify({
+          
+          wins: parseInt(welcomeDiv.dataset.wins)})
+      }
+      )
+      // fetch(peopleURL, {
+      //   method: "POST",
+      //   headers: {
+      //     "content-type":"application/json",
+      //     "accept":"application/json"},
+      //   body: JSON.stringify({
+      //     name: newPersonForm.name.value,
+      //     picture: newPersonForm.pic.value
+      // })
+    // })
+
+
+
+      .then(res => res.json())
+      .then(console.log)
+    } 
+    else if (e.target.id === 'del'){
+      fetch(peopleURL)
+      .then(res => res.json())
+      .then(data => deleteCharacterBoard(data))
+      .then(()=>{
+        let deleteButtons = document.querySelectorAll('.flip-button')
+      const welcomeHeader = document.querySelector('#welcome-header')
+      const playBtn = document.getElementById('select-version')
+      if (playBtn){playBtn.remove()}
+      guessWhoImage.remove()
+      newPersonForm.remove()
+      newPlayerForm.remove()
+      body.appendChild(backButton)
+      if (welcomeHeader.innerHTML !== null){
+        alert("No cheating!")
+        newPersonForm.remove()
+      }
+
+      })
+    } else if(e.target.className === 'del-btn'){
+      console.log(e.target.parentNode.dataset.id)
+      fetch(peopleURL+`/${e.target.parentNode.dataset.id}`,
+      {method: "DELETE",
+      headers: {"content-type":"application/json",
+      "accept":"application/json"
+    }
+    })
+       fetch(peopleURL)
+      .then(res => res.json())
+      .then(data => deleteCharacterBoard(data))
+      .then(()=>{
+        let deleteButtons = document.querySelectorAll('.flip-button')
+      const welcomeHeader = document.querySelector('#welcome-header')
+      const playBtn = document.getElementById('select-version')
+      if (playBtn){playBtn.remove()}
+      guessWhoImage.remove()
+      newPersonForm.remove()
+      newPlayerForm.remove()
+      body.appendChild(backButton)
+      })
 
     }
     
@@ -161,6 +254,31 @@ console.log('hey')
     `
     return div
   }
+
+
+  function deleteCharacterBoard(people){
+    personDiv.innerHTML=""
+    people.forEach(function(personInfo){
+    // console.log(personInfo)
+    const personLi = deletePersonDiv(personInfo)
+    // const personLi = document.createElement('li')
+    // personLi.innerText = "beef"
+    personDiv.append(personLi)
+  })
+}
+
+  function deletePersonDiv(person){
+    let div = document.createElement('div')
+    div.className = "card"
+    div.dataset.id = person.id
+    div.innerHTML = `
+    <h2>${person.name}</h2>
+    <img src=${person.picture} class="person-avatar"/>
+    <button class="del-btn"> Delete Character </button>
+    `
+    return div
+  }
+
 
   // function cre
   
