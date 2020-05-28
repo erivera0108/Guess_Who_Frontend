@@ -25,7 +25,6 @@ document.addEventListener("DOMContentLoaded", () => {
   <input  type="text" id="name" name="name"><br>
   <input id= "submit-button" type="submit" value="Submit"></input>`
 
-
   const newPersonForm = document.createElement('form')
   newPersonForm.id = "new-person-form"
   newPersonForm.innerHTML = `<label for="name">Person's name:</label>
@@ -36,10 +35,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const globalVar = {delDiv : null}
   
-
-
-  
-
   document.addEventListener("submit", function(e){
     e.preventDefault()
     if(e.target === newPlayerForm){
@@ -57,7 +52,6 @@ document.addEventListener("DOMContentLoaded", () => {
     })
     .then(res => res.json())
     .then(renderPlayer)
-    // .then(console.log)
 
     fetch(peopleURL)
     .then(res => res.json())
@@ -78,6 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
         picture: newPersonForm.pic.value
       })
     })
+
     .then(res => res.json)
     .then(()=>{
       fetch(peopleURL)
@@ -86,6 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
       newPersonForm.reset()
     })
     }
+
   })
 
   function renderPlayer(player) {
@@ -109,7 +105,7 @@ document.addEventListener("DOMContentLoaded", () => {
       body.appendChild(newPlayerForm)
       body.appendChild(backButton)
       playBtn.remove()
-     
+
 
       // The 3 lines below belong within the submit listener above
       // here for test purposes 
@@ -120,11 +116,11 @@ document.addEventListener("DOMContentLoaded", () => {
       // welcomeDiv.append(winBtn)
 
       // newPlayerForm.remove()
-      e.target.parentNode.remove()
 
-    } else if(e.target.className === 'flip-btn'){
+    } else if(e.target.className.id === 'flip-btn'){
       const button = e.target
       const buttonParentNode = button.parentNode
+
       const name = buttonParentNode.children[0]
       const image = buttonParentNode.children[1]
         if (image.style.filter === '') {
@@ -208,6 +204,7 @@ document.addEventListener("DOMContentLoaded", () => {
         alert("No cheating!")
         newPersonForm.remove()
       }
+
       })
     } else if(e.target.className === 'del-btn'){
       console.log(e.target.parentNode.dataset.id)
@@ -230,6 +227,7 @@ document.addEventListener("DOMContentLoaded", () => {
       newPlayerForm.remove()
       body.appendChild(backButton)
       })
+
     }
     
     
