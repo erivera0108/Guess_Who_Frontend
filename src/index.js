@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const winBtn = document.createElement('button')
   winBtn.id = 'win-btn'
   winBtn.innerText = 'WINNER'
+  const leaderBoard = document.createElement('div')
 
   const delPersonForm = document.createElement('form')
   delPersonForm.id = "del-player-form"
@@ -32,6 +33,8 @@ document.addEventListener("DOMContentLoaded", () => {
   <label for="name">Person's Pic</label>
   <input  type="text" id="char-pic" name="pic"><br>
   <input id= "char-submit-button" type="submit" value="Submit"></input>`
+
+  const globalVar = {delDiv : null}
   
 
 
@@ -80,8 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
       fetch(peopleURL)
       .then(res => res.json())
       .then(data => createCharacterBoard(data))
-      newPersonForm.remove()
-      backButton.remove()
+      newPersonForm.reset()
     })
     }
   })
@@ -136,17 +138,18 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     } else if (e.target.id === 'edit'){
       newPlayerForm.remove()
+      personDiv.innerHTML=""
+      guessWhoImage.remove()
       const welcomeHeader = document.querySelector('#welcome-header')
       const playBtn = document.getElementById('select-version')
       if (!welcomeHeader){
         if (playBtn)
-        {playBtn.remove()}
+        {playBtn.remove()
+        }
       }
-      guessWhoImage.remove()
       body.appendChild(newPersonForm)
       body.appendChild(backButton)
-      
-      if (welcomeHeader){
+      if (welcomeHeader.innerHTML !== null){
         alert("No cheating!")
         newPersonForm.remove()
       }
@@ -171,7 +174,6 @@ document.addEventListener("DOMContentLoaded", () => {
           
           wins: parseInt(welcomeDiv.dataset.wins)})
       }
-      
       )
       // fetch(peopleURL, {
       //   method: "POST",
@@ -188,6 +190,46 @@ document.addEventListener("DOMContentLoaded", () => {
 
       .then(res => res.json())
       .then(console.log)
+    } 
+    else if (e.target.id === 'del'){
+      fetch(peopleURL)
+      .then(res => res.json())
+      .then(data => deleteCharacterBoard(data))
+      .then(()=>{
+        let deleteButtons = document.querySelectorAll('.flip-button')
+      const welcomeHeader = document.querySelector('#welcome-header')
+      const playBtn = document.getElementById('select-version')
+      if (playBtn){playBtn.remove()}
+      guessWhoImage.remove()
+      newPersonForm.remove()
+      newPlayerForm.remove()
+      body.appendChild(backButton)
+      if (welcomeHeader.innerHTML !== null){
+        alert("No cheating!")
+        newPersonForm.remove()
+      }
+      })
+    } else if(e.target.className === 'del-btn'){
+      console.log(e.target.parentNode.dataset.id)
+      fetch(peopleURL+`/${e.target.parentNode.dataset.id}`,
+      {method: "DELETE",
+      headers: {"content-type":"application/json",
+      "accept":"application/json"
+    }
+    })
+       fetch(peopleURL)
+      .then(res => res.json())
+      .then(data => deleteCharacterBoard(data))
+      .then(()=>{
+        let deleteButtons = document.querySelectorAll('.flip-button')
+      const welcomeHeader = document.querySelector('#welcome-header')
+      const playBtn = document.getElementById('select-version')
+      if (playBtn){playBtn.remove()}
+      guessWhoImage.remove()
+      newPersonForm.remove()
+      newPlayerForm.remove()
+      body.appendChild(backButton)
+      })
     }
     
     
@@ -214,6 +256,31 @@ document.addEventListener("DOMContentLoaded", () => {
     `
     return div
   }
+
+
+  function deleteCharacterBoard(people){
+    personDiv.innerHTML=""
+    people.forEach(function(personInfo){
+    // console.log(personInfo)
+    const personLi = deletePersonDiv(personInfo)
+    // const personLi = document.createElement('li')
+    // personLi.innerText = "beef"
+    personDiv.append(personLi)
+  })
+}
+
+  function deletePersonDiv(person){
+    let div = document.createElement('div')
+    div.className = "card"
+    div.dataset.id = person.id
+    div.innerHTML = `
+    <h2>${person.name}</h2>
+    <img src=${person.picture} class="person-avatar"/>
+    <button class="del-btn"> Delete Character </button>
+    `
+    return div
+  }
+
 
   // function cre
   
