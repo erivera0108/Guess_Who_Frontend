@@ -17,13 +17,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const leaderBoard = document.createElement('div')
 
+
   const delPersonForm = document.createElement('form')
   delPersonForm.id = "del-player-form"
   delPersonForm.innerHTML = `<label for="name">Person's:</label>
   <input  type="text" id="del-name" name="name"><br>
   <input id= "submit-button" type="submit" value="Delete"></input>`
   
-  
+
   const newPlayerForm = document.createElement('form')
   newPlayerForm.id = "new-player-form"
   newPlayerForm.innerHTML = `<label for="name">Your name:</label>
