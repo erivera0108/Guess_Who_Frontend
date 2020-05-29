@@ -95,18 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   })
 
-  function renderPlayer(player) {
-    const playerHeader = document.createElement('h1')
-    playerHeader.id = "welcome-header"
-    playerHeader.innerText = `Welcome ${player.name}`
-    welcomeDiv.dataset.id = player.id
-    welcomeDiv.dataset.wins = player.wins
-    welcomeDiv.dataset.name = player.name
-    
-    console.log(playerHeader)
-    welcomeDiv.append(playerHeader)
-    welcomeDiv.append(winBtn)
-  }
+  
   
   document.addEventListener('click', e =>{
     if(e.target.className === 'play-btn'){
@@ -293,8 +282,27 @@ document.addEventListener("DOMContentLoaded", () => {
     return div
   }
 
+  function renderPlayer(player) {
+    const playerHeader = document.createElement('h1')
+    playerHeader.id = "welcome-header"
+    playerHeader.innerHTML = `
+    <h1> Welcome ${player.name} </h1>
 
-  // function cre
+    <p id = 'win-tracker'> Wins <span id = 'winNum' > 0 </span> </p>
+    <p id = 'losses-tracker'> Losses <span id = 'loseNum' > 0 </span> </p>
+
+    `
+    welcomeDiv.dataset.id = player.id
+    welcomeDiv.dataset.wins = player.wins
+    welcomeDiv.dataset.lose = player.losses
+    welcomeDiv.dataset.name = player.name
+    
+    welcomeDiv.append(playerHeader)
+    welcomeDiv.append(winBtn)
+    welcomeDiv.append(loseBtn)
+
+  }
+
   
 
 
