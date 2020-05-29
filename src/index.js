@@ -84,6 +84,8 @@ document.addEventListener("DOMContentLoaded", () => {
       .then(res => res.json())
       .then(data => createCharacterBoard(data))
       newPersonForm.reset()
+      newPersonForm.remove()
+
     })
     }
   })
