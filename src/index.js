@@ -135,9 +135,9 @@ document.addEventListener("DOMContentLoaded", () => {
     } else if(e.target.id == 'win-btn'){
       const playerId = welcomeDiv.dataset.id
       welcomeDiv.dataset.wins = parseInt(welcomeDiv.dataset.wins) + 1
-      const winsCounter = welcomeDiv.dataset.wins
-      document.querySelector('#winNum').innerText = winsCounter
 
+      // const winsCounter = welcomeDiv.dataset.wins
+      document.querySelector('#winNum').innerText = welcomeDiv.dataset.wins
       
       fetch(`${playerURL}/${playerId}`,{
         method: 'PATCH',
@@ -146,15 +146,13 @@ document.addEventListener("DOMContentLoaded", () => {
           'content-type': 'application/json'
           },
         body: JSON.stringify({
-          wins: parseInt(welcomeDiv.dataset.wins)})
+          wins: welcomeDiv.dataset.wins})
       })
-      .then(res => res.json())
-      .then(console.log)
     } else if(e.target.id == 'lose-btn'){
       const playerId = welcomeDiv.dataset.id
       welcomeDiv.dataset.lose = parseInt(welcomeDiv.dataset.lose) + 1
-      const lossesCounter = welcomeDiv.dataset.lose
-      document.querySelector('#loseNum').innerText = lossesCounter
+      // const lossesCounter = welcomeDiv.dataset.lose
+      document.querySelector('#loseNum').innerText = welcomeDiv.dataset.lose
 
       fetch(`${playerURL}/${playerId}`,{
         method: 'PATCH',
@@ -165,8 +163,7 @@ document.addEventListener("DOMContentLoaded", () => {
         body: JSON.stringify({
           losses:  welcomeDiv.dataset.lose})
       })
-      .then(res => res.json())
-      .then(console.log)
+
     } 
 
     else if (e.target.id === 'del'){
