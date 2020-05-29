@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(data => createCharacterBoard(data))
     newPersonForm.remove()
     newPlayerForm.remove()
-    alert("You may not make changes to the gameboard once match starts!")
+    alert("You may not make changes to the game board once match starts!")
   } else if (e.target === newPersonForm){
     console.log(newPersonForm.name.value, newPersonForm.pic.value)
   
@@ -165,10 +165,9 @@ document.addEventListener("DOMContentLoaded", () => {
       const winScore = welcomeDiv.dataset.wins
       welcomeDiv.dataset.wins = parseInt(welcomeDiv.dataset.wins) + 1
 
-
-
-
-
+      // const winsCounter = welcomeDiv.dataset.wins
+      document.querySelector('#winNum').innerText = welcomeDiv.dataset.wins
+      
       fetch(`${playerURL}/${playerId}`,{
         method: 'PATCH',
         headers:{
@@ -176,25 +175,24 @@ document.addEventListener("DOMContentLoaded", () => {
           'content-type': 'application/json'
         },
         body: JSON.stringify({
-          
-          wins: parseInt(welcomeDiv.dataset.wins)})
-      }
-      )
-      // fetch(peopleURL, {
-      //   method: "POST",
-      //   headers: {
-      //     "content-type":"application/json",
-      //     "accept":"application/json"},
-      //   body: JSON.stringify({
-      //     name: newPersonForm.name.value,
-      //     picture: newPersonForm.pic.value
-      // })
-    // })
+          wins: welcomeDiv.dataset.wins})
+      })
+    } else if(e.target.id == 'lose-btn'){
+      const playerId = welcomeDiv.dataset.id
+      welcomeDiv.dataset.lose = parseInt(welcomeDiv.dataset.lose) + 1
+      // const lossesCounter = welcomeDiv.dataset.lose
+      document.querySelector('#loseNum').innerText = welcomeDiv.dataset.lose
 
+      fetch(`${playerURL}/${playerId}`,{
+        method: 'PATCH',
+        headers:{
+          'accept': 'application/json',
+          'content-type': 'application/json'
+          },
+        body: JSON.stringify({
+          losses:  welcomeDiv.dataset.lose})
+      })
 
-
-      .then(res => res.json())
-      .then(console.log)
     } 
     else if (e.target.id === 'del'){
       fetch(peopleURL)
