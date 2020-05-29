@@ -12,6 +12,10 @@ document.addEventListener("DOMContentLoaded", () => {
   winBtn.innerText = 'WINNER'
   const leaderBoard = document.createElement('div')
 
+  const loseBtn = document.createElement('button')
+  loseBtn.id = 'lose-btn'
+  loseBtn.innerText = 'LOSER'
+
 
   const delPersonForm = document.createElement('form')
   delPersonForm.id = "del-player-form"
