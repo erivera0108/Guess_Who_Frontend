@@ -164,10 +164,7 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(data => createCharacterBoard(data))
       }
     } else if(e.target.id == 'win-btn'){
-      const btn = e.target
       const playerId = welcomeDiv.dataset.id
-
-      const winScore = welcomeDiv.dataset.wins
       welcomeDiv.dataset.wins = parseInt(welcomeDiv.dataset.wins) + 1
 
       // const winsCounter = welcomeDiv.dataset.wins
@@ -178,7 +175,7 @@ document.addEventListener("DOMContentLoaded", () => {
         headers:{
           'accept': 'application/json',
           'content-type': 'application/json'
-        },
+          },
         body: JSON.stringify({
           wins: welcomeDiv.dataset.wins})
       })
