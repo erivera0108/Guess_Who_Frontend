@@ -1,117 +1,115 @@
 :root{
---flatironBlue: #00b3e6
-}
-
-
-*{
-  box-sizing: border-box;
-}
-
-
-body {
-  margin: 0;
-  font-family: monospace;
-}
-
-#guess-who-image {
-  display: flex;
-  justify-content: center;
-  /* opacity: .8; */
-  padding: 1rem;
-}
-
-.card {
-  text-align: center;
-  border: grey solid 1px;
-  padding: 1rem;
-  width: 10rem;
-  height: 15rem;
-  display: inline-grid;
-  margin: 1rem 1rem;
-  box-shadow: 3px 4px var(--flatironBlue)
-}
-
-.person-avatar {
-  justify-self: center;
-  height: auto;
-  width: 95%;
-  padding: 5px;
-}
-
-
-button {
-  position: relative;
-  background-color: var(--flatironBlue);
-  padding: 4px;
-  margin: 3px;
-  border: none;
-  border-radius: 5px;
-  height: 3rem;
-  width: max-content;
-  color: whitesmoke;
-  font-size: 18px;
-  justify-self: center;
-}
-
-.flip-btn{
-  position: relative;
-  background-color: var(--flatironBlue);
-  border: none;
-  border-radius: 5px;
-  height: 18px;
-  width: max-content;
-  color: whitesmoke;
-  font-size: 12px;
-  justify-self: center;
-}
-
-
-button:hover {
-  background-color: whitesmoke;
-  border: var(--flatironBlue) solid 1px;
-  color: var(--flatironBlue);
-}
-
-.add-toy-form {
-  width: 80%
-}
-
-/* Nav Bar */
-/* Add a black background color to the top navigation */
-.top-nav {
-  background-color: var(--flatironBlue);
-  overflow: hidden;
-}
-
-/* Style the links inside the navigation bar */
-.top-nav a {
-  float: left;
-  color: #f2f2f2;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-  font-size: 17px;
-}
-
-/* Change the color of links on hover */
-.top-nav a:hover {
-  background-color: rgb(22, 155, 207);
-  color: rgb(255, 255, 255);
-}
-
-/* Add a color to the active/current link */
-.top-nav a.active {
-  background-color: var(--flatironBlue);
-  color: white;
-}
-
-.del-btn {
-  background-color: rgb(255, 59, 59);
-  font-size: 12px;
-}
-.del-btn:hover {
-  background-color: whitesmoke;
-  border:  rgb(255, 59, 59) solid 1px;
-  color:  rgb(255, 59, 59);
-  font-size: 12px;
-}
+  --flatironBlue: #00b3e6
+  }
+  
+  
+  *{
+    box-sizing: border-box;
+  }
+  
+  
+  body {
+    margin: 0;
+    font-family: monospace;
+  }
+  
+  #guess-who-image {
+    display: flex;
+    justify-content: center;
+    /* opacity: .8; */
+    padding: 1rem;
+  }
+  
+  .card {
+    text-align: center;
+    border: grey solid 1px;
+    padding: 1rem;
+    width: 10rem;
+    height: 15rem;
+    display: inline-grid;
+    margin: 1rem 1rem;
+    box-shadow: 3px 4px var(--flatironBlue)
+  }
+  
+  .person-avatar {
+    justify-self: center;
+    height: auto;
+    width: 95%;
+    padding: 5px;
+  }
+  
+  
+  button {
+    position: relative;
+    background-color: var(--flatironBlue);
+    border: none;
+    border-radius: 5px;
+    height: 3rem;
+    width: max-content;
+    color: whitesmoke;
+    font-size: 18px;
+    justify-self: center;
+  }
+  
+  .flip-btn{
+    position: relative;
+    background-color: var(--flatironBlue);
+    border: none;
+    border-radius: 5px;
+    height: 18px;
+    width: max-content;
+    color: whitesmoke;
+    font-size: 12px;
+    justify-self: center;
+  }
+  
+  
+  button:hover {
+    background-color: whitesmoke;
+    border: var(--flatironBlue) solid 1px;
+    color: var(--flatironBlue);
+  }
+  
+  .add-toy-form {
+    width: 80%
+  }
+  
+  /* Nav Bar */
+  /* Add a black background color to the top navigation */
+  .top-nav {
+    background-color: var(--flatironBlue);
+    overflow: hidden;
+  }
+  
+  /* Style the links inside the navigation bar */
+  .top-nav a {
+    float: left;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+  }
+  
+  /* Change the color of links on hover */
+  .top-nav a:hover {
+    background-color: rgb(22, 155, 207);
+    color: rgb(255, 255, 255);
+  }
+  
+  /* Add a color to the active/current link */
+  .top-nav a.active {
+    background-color: var(--flatironBlue);
+    color: white;
+  }
+  
+  .del-btn {
+    background-color: rgb(255, 59, 59);
+    font-size: 12px;
+  }
+  .del-btn:hover {
+    background-color: whitesmoke;
+    border:  rgb(255, 59, 59) solid 1px;
+    color:  rgb(255, 59, 59);
+    font-size: 12px;
+  }

@@ -9,12 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const welcomeDiv = document.querySelector('#welcome-message')
   const winBtn = document.createElement('button')
   winBtn.id = 'win-btn'
-  winBtn.innerText = 'WINNER' 
-
-  const loseBtn = document.createElement('button')
-  loseBtn.id = 'lose-btn'
-  loseBtn.innerText = 'LOSER'
-
+  winBtn.innerText = 'WINNER'
   const leaderBoard = document.createElement('div')
 
   const delPersonForm = document.createElement('form')
@@ -67,7 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
     fetch(peopleURL)
     .then(res => res.json())
     .then(data => createCharacterBoard(data))
-
+    newPersonForm.remove()
     newPlayerForm.remove()
     alert("You may not make changes to the gameboard once match starts!")
   } else if (e.target === newPersonForm){
@@ -93,13 +88,39 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   })
 
-  
+  function renderPlayer(player) {
+    const playerHeader = document.createElement('h1')
+    playerHeader.id = "welcome-header"
+    playerHeader.innerText = `Welcome ${player.name}`
+    welcomeDiv.dataset.id = player.id
+    welcomeDiv.dataset.wins = player.wins
+    welcomeDiv.dataset.name = player.name
+    
+    console.log(playerHeader)
+    welcomeDiv.append(playerHeader)
+    welcomeDiv.append(winBtn)
+  }
   
   document.addEventListener('click', e =>{
-    if(e.target.id === 'pvp'){
-      playerCreation(e)
-    } else if (e.target.id === 'pve'){
-      playerCreation(e)
+    if(e.target.className === 'play-btn'){
+      const playBtn = e.target.parentNode
+
+      guessWhoImage.remove()
+      body.appendChild(newPlayerForm)
+      body.appendChild(backButton)
+      playBtn.remove()
+     
+
+      // The 3 lines below belong within the submit listener above
+      // here for test purposes 
+
+      // fetch(peopleURL)
+      // .then(res => res.json())
+      // .then(data => createCharacterBoard(data))
+      // welcomeDiv.append(winBtn)
+
+      // newPlayerForm.remove()
+      e.target.parentNode.remove()
 
     } else if(e.target.className === 'flip-btn'){
       const button = e.target
@@ -131,44 +152,48 @@ document.addEventListener("DOMContentLoaded", () => {
       if (welcomeHeader.innerHTML !== null){
         alert("No cheating!")
         newPersonForm.remove()
+        fetch(peopleURL)
+        .then(res => res.json())
+        .then(data => createCharacterBoard(data))
       }
     } else if(e.target.id == 'win-btn'){
+      const btn = e.target
       const playerId = welcomeDiv.dataset.id
+
+      const winScore = welcomeDiv.dataset.wins
       welcomeDiv.dataset.wins = parseInt(welcomeDiv.dataset.wins) + 1
-      const winsCounter = welcomeDiv.dataset.wins
-      document.querySelector('#winNum').innerText = winsCounter
 
-      
+
+
+
+
       fetch(`${playerURL}/${playerId}`,{
         method: 'PATCH',
         headers:{
           'accept': 'application/json',
           'content-type': 'application/json'
-          },
+        },
         body: JSON.stringify({
+          
           wins: parseInt(welcomeDiv.dataset.wins)})
-      })
-      .then(res => res.json())
-      .then(console.log)
-    } else if(e.target.id == 'lose-btn'){
-      const playerId = welcomeDiv.dataset.id
-      welcomeDiv.dataset.lose = parseInt(welcomeDiv.dataset.lose) + 1
-      const lossesCounter = welcomeDiv.dataset.lose
-      document.querySelector('#loseNum').innerText = lossesCounter
+      }
+      )
+      // fetch(peopleURL, {
+      //   method: "POST",
+      //   headers: {
+      //     "content-type":"application/json",
+      //     "accept":"application/json"},
+      //   body: JSON.stringify({
+      //     name: newPersonForm.name.value,
+      //     picture: newPersonForm.pic.value
+      // })
+    // })
 
-      fetch(`${playerURL}/${playerId}`,{
-        method: 'PATCH',
-        headers:{
-          'accept': 'application/json',
-          'content-type': 'application/json'
-          },
-        body: JSON.stringify({
-          losses:  welcomeDiv.dataset.lose})
-      })
+
+
       .then(res => res.json())
       .then(console.log)
     } 
-
     else if (e.target.id === 'del'){
       fetch(peopleURL)
       .then(res => res.json())
@@ -185,6 +210,10 @@ document.addEventListener("DOMContentLoaded", () => {
       if (welcomeHeader.innerHTML !== null){
         alert("No cheating!")
         newPersonForm.remove()
+        personDiv.innerHTML=""
+        fetch(peopleURL)
+        .then(res => res.json())
+        .then(data => createCharacterBoard(data))
       }
       })
     } else if(e.target.className === 'del-btn'){
@@ -208,23 +237,13 @@ document.addEventListener("DOMContentLoaded", () => {
       newPlayerForm.remove()
       body.appendChild(backButton)
       })
+      fetch(peopleURL)
+      .then(res => res.json())
+      .then(data => deleteCharacterBoard(data))
     }
     
     
   })
-
-
-
-  function playerCreation(e){
-    const playBtn = e.target.parentNode
-
-    guessWhoImage.remove()
-    body.appendChild(newPlayerForm)
-    body.appendChild(backButton)
-    playBtn.remove()
-
-    e.target.parentNode.remove()
-  }
 
   function createCharacterBoard(people){
       people.forEach(function(personInfo){
@@ -270,27 +289,6 @@ document.addEventListener("DOMContentLoaded", () => {
     <button class="del-btn"> Delete Character </button>
     `
     return div
-  }
-
-  function renderPlayer(player) {
-    const playerHeader = document.createElement('h1')
-    playerHeader.id = "welcome-header"
-    playerHeader.innerHTML = `
-    <h1> Welcome ${player.name} </h1>
-
-    <p id = 'win-tracker'> Wins <span id = 'winNum' > 0 </span> </p>
-    <p id = 'losses-tracker'> Losses <span id = 'loseNum' > 0 </span> </p>
-
-    `
-    welcomeDiv.dataset.id = player.id
-    welcomeDiv.dataset.wins = player.wins
-    welcomeDiv.dataset.lose = player.losses
-    welcomeDiv.dataset.name = player.name
-    
-    welcomeDiv.append(playerHeader)
-    welcomeDiv.append(winBtn)
-    welcomeDiv.append(loseBtn)
-
   }
 
 
