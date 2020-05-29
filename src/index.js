@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const welcomeDiv = document.querySelector('#welcome-message')
   const winBtn = document.createElement('button')
   winBtn.id = 'win-btn'
-  winBtn.innerText = 'WINNER'
+  winBtn.innerText = 'WINNER' 
 
   const loseBtn = document.createElement('button')
   loseBtn.id = 'lose-btn'
@@ -135,7 +135,10 @@ document.addEventListener("DOMContentLoaded", () => {
     } else if(e.target.id == 'win-btn'){
       const playerId = welcomeDiv.dataset.id
       welcomeDiv.dataset.wins = parseInt(welcomeDiv.dataset.wins) + 1
+      const winsCounter = welcomeDiv.dataset.wins
+      document.querySelector('#winNum').innerText = winsCounter
 
+      
       fetch(`${playerURL}/${playerId}`,{
         method: 'PATCH',
         headers:{
@@ -150,6 +153,8 @@ document.addEventListener("DOMContentLoaded", () => {
     } else if(e.target.id == 'lose-btn'){
       const playerId = welcomeDiv.dataset.id
       welcomeDiv.dataset.lose = parseInt(welcomeDiv.dataset.lose) + 1
+      const lossesCounter = welcomeDiv.dataset.lose
+      document.querySelector('#loseNum').innerText = lossesCounter
 
       fetch(`${playerURL}/${playerId}`,{
         method: 'PATCH',
@@ -158,8 +163,7 @@ document.addEventListener("DOMContentLoaded", () => {
           'content-type': 'application/json'
           },
         body: JSON.stringify({
-          losses:  welcomeDiv.dataset.lose
-        })
+          losses:  welcomeDiv.dataset.lose})
       })
       .then(res => res.json())
       .then(console.log)
@@ -271,13 +275,18 @@ document.addEventListener("DOMContentLoaded", () => {
   function renderPlayer(player) {
     const playerHeader = document.createElement('h1')
     playerHeader.id = "welcome-header"
-    playerHeader.innerText = `Welcome ${player.name}`
+    playerHeader.innerHTML = `
+    <h1> Welcome ${player.name} </h1>
+
+    <p id = 'win-tracker'> Wins <span id = 'winNum' > 0 </span> </p>
+    <p id = 'losses-tracker'> Losses <span id = 'loseNum' > 0 </span> </p>
+
+    `
     welcomeDiv.dataset.id = player.id
     welcomeDiv.dataset.wins = player.wins
     welcomeDiv.dataset.lose = player.losses
     welcomeDiv.dataset.name = player.name
     
-    console.log(playerHeader)
     welcomeDiv.append(playerHeader)
     welcomeDiv.append(winBtn)
     welcomeDiv.append(loseBtn)
